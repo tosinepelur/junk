@@ -1,15 +1,27 @@
 #!/bin/bash
 #
-# Easy git push.
+# Easy git push
 
+source .pushpath
 pun=`tput setaf 1`      #pun = red color.
 roh=`tput setaf 2`      #roh = green color.
 kol=`tput setaf 3`      #kol = yellow color.
 
-echo "$roh Insert file location"
-echo -n "$roh /home/mati/junk/"		#assuming the file is located in /home/mati/junk/
+if [ ! -e ./.pushpath ]; then
+touch .pushpath
+echo "#!/bin/bash" > .pushpath
+echo "$pun The following path will be remembered by the script."
+echo "$pun Insert your path for the push: "
+read filepath
+tput sgr0
+
+echo "path=$filepath" >> .pushpath
+echo "$roh Path saved in ./.pushpath"
+
+echo "$roh Insert filename"
+echo -n "$roh $path"
 read file
-git add /home/mati/junk/$file
+git add $file
 
 echo "$roh Insert comment for the file"
 echo -n "$roh Commit: "
@@ -21,4 +33,23 @@ echo -n "$roh Repository: "
 read repo
 git push -uf $repo master
 
+tput sgr0 #return to original color.
+
+else
+
+echo "$roh Insert file location"
+echo -n "$roh $path"
+read file
+git add $$file
+
+echo "$roh Insert comment for the file"
+echo -n "$roh Commit: "
+read comm
+git commit -m "$comm"
+
+echo "$roh Insert repository"
+echo -n "$roh Repository: "
+read repo
+git push -uf $repo master
+fi
 tput sgr0 #return to original color.
