@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+# Easy git push.
+
+pun=`tput setaf 1`      #pun = red color.
+roh=`tput setaf 2`      #roh = green color.
+kol=`tput setaf 3`      #kol = yellow color.
+
+echo "$roh Insert file location"
+echo -n "$roh /home/mati/junk/"		#assuming the file is located in /home/mati/junk/
+read file
+git add /home/mati/junk/$file
+
+echo "$roh Insert comment for the file"
+echo -n "$roh Commit: "
+read comm
+git commit -m "$comm"
+
+echo "$roh Insert repository"
+echo -n "$roh Repository: "
+read repo
+git push -uf $repo master
+
+tput sgr0 #return to original color.
