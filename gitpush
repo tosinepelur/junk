@@ -78,7 +78,6 @@ git commit -m "$comm"
 echo "$gre Insert repository"
 echo -n "$gre Repository: "
 read repo
-tput setaf 3
 git push -uf $repo master
 
 fi
