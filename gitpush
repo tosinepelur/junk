@@ -80,7 +80,6 @@ echo -n "$gre Repository: "
 read repo
 tput setaf 3
 git push -uf $repo master
-tput sgr0 #return to original color.
 
 fi
 tput setaf 5
