@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Easy git config.
+
+pun=`tput setaf 1`      #määrab punase värvi.
+roh=`tput setaf 2`      #määrab rohelise värvi.
+kol=`tput setaf 3`      #määrab kollase värvi.
+
+echo "$pun Format: Firstname Lastname"
+echo -n "$pun Insert your name: "
+read user
+git config --global user.name "$user"
+
+echo "$kol Format: user@domain.com"
+echo -n "$kol Insert your e-mail: "
+read email
+git config --global user.email $email
+
+echo "$roh Format: editor"
+echo -n "$roh Insert your editor: "
+read edit
+git config --global core.editor $edit
+
+echo ""
+echo "$roh Git has been configured, here are your settings:"
+echo " Name: $user"
+echo " E-mail: $email"
+echo " Editor: $edit"
+tput sgr0
