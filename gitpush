@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Easy git push
-
-source .pushpath
+# Easy git push.
+#####
+#text colors.
 
 bla=`tput setaf 0`	#black color.
 red=`tput setaf 1`      #red color.
@@ -12,88 +12,159 @@ blu=`tput setaf 4`	#blue color.
 mag=`tput setaf 5`	#magenta color.
 cya=`tput setaf 6`	#cyan color.
 whi=`tput setaf 7`	#white color
+cur=`pwd`		#current path.
 
+gitpush=`printf "\n\n\n   _____ _____ _______   _____  _    _  _____ _    _  \n  / ____|_   _|__   __| |  __ \| |  | |/ ____| |  | | \n | |  __  | |    | |    | |__) | |  | | (___ | |__| | \n | | |_ | | |    | |    |  ___/| |  | |\___ \|  __  | \n | |__| |_| |_   | |    | |    | |__| |____) | |  | | \n  \_____|_____|  |_|    |_|     \____/|_____/|_|  |_| \n\n\n"`
+goodpush=`printf "\n\n\n   _____ _____ _______   _____  _    _  _____ _    _ ______ _____  \n  / ____|_   _|__   __| |  __ \| |  | |/ ____| |  | |  ____|  __ \ \n | |  __  | |    | |    | |__) | |  | | (___ | |__| | |__  | |  | |\n | | |_ | | |    | |    |  ___/| |  | |\___ \|  __  |  __| | |  | |\n | |__| |_| |_   | |    | |    | |__| |____) | |  | | |____| |__| |\n  \_____|_____|  |_|    |_|     \____/|_____/|_|  |_|______|_____/ \n\n\n"`
+badpush=`printf "\n\n\n  _____  _    _  _____ _    _   ______      _____ _      ______ _____  \n |  __ \| |  | |/ ____| |  | | |  ____/\   |_   _| |    |  ____|  __ \ \n | |__) | |  | | (___ | |__| | | |__ /  \    | | | |    | |__  | |  | |\n |  ___/| |  | |\___ \|  __  | |  __/ /\ \   | | | |    |  __| | |  | |\n | |    | |__| |____) | |  | | | | / ____ \ _| |_| |____| |____| |__| |\n |_|     \____/|_____/|_|  |_| |_|/_/    \_\_____|______|______|_____/ \n\n\n"`
+
+###### arguments
+
+if [ $1 == reset ]; then
+		if [ -e ".gitpush" ];then
+		echo -n "$red Are you sure you wish to remove $yel.gitpush $red?$cya y/n: "
+		read del
+			if [ $del == y -o $del == Y ];then
+				rm $cur/.gitpush
+				echo "$gre $cur/.gitpush deleted."
+				tput sgr0
+				exit
+			fi
+		elif [ ! -e ".gitpush" ]; then
+			echo "$red The file .gitpush does not exist!"
+			tput sgr0
+			exit
+		fi
+fi
+if [ $1 == where ]; then
+	source .gitpush
+	if [ -e ".gitpush" ]; then
+	echo "$gre Your saved repository is: $yel"$path""
+	tput sgr0
+	exit
+	else
+	echo "$red The file .gitpush does not exist!"
+	tput sgr0
+	exit
+	fi
+fi
+tput sgr0
+######
 clear
 
 tput setaf 5
 
-echo ""
-echo ""
-echo ""
-echo "   _____ _____ _______   _____  _    _  _____ _    _ "
-echo "  / ____|_   _|__   __| |  __ \| |  | |/ ____| |  | |"
-echo " | |  __  | |    | |    | |__) | |  | | (___ | |__| |"
-echo " | | |_ | | |    | |    |  ___/| |  | |\___ \|  __  |"
-echo " | |__| |_| |_   | |    | |    | |__| |____) | |  | |"
-echo "  \_____|_____|  |_|    |_|     \____/|_____/|_|  |_|"
-echo ""
-echo ""
-echo ""
+echo "$gitpush"
 
 tput sgr0
 
-if [ ! -e ./.pushpath ]; then
-touch .pushpath
-echo "#!/bin/bash" > .pushpath
-echo "$yel The following path will be remembered by the script."
-echo "$red Insert your path for the push: "
-read filepath
-tput sgr0
+if [ ! -e "./.gitpush" ]; then #Checks if .gitpush excists in current folder. 
+	echo "#!/bin/bash" > .gitpush
+	echo >> .gitpush #empty
+	echo "$(printf "\n#\n#\n#   _____ _____ _______   _____  _    _  _____ _    _\n#  / ____|_   _|__   __| |  __ \| |  | |/ ____| |  | |\n# | |  __  | |    | |    | |__) | |  | | (___ | |__| |\n# | | |_ | | |    | |    |  ___/| |  | |\___ \|  __  |\n# | |__| |_| |_   | |    | |    | |__| |____) | |  | |\n#  \_____|_____|  |_|    |_|     \____/|_____/|_|  |_|\n#\n#\n")" >> .gitpush
+	echo >> .gitpush #empty
+	echo >> .gitpush #empty
+	echo "$yel Your repository's path will be remebered.(You can check it by executing $gre./gitpush.khk$red where$yel)"
+	echo "$red Insert the path to your repository. |$gre Example: /home/user/junk"
+	echo -n "$gre Path: "
+	read filepath
+	tput sgr0
 
-echo "path=$filepath" >> .pushpath
-echo "$gre Path saved in ./.pushpath"
+		if [ ! -d "$filepath" ]; then			#checks if the path is a proper directory.
+		echo "$red Please insert a correct absolute path"
+		rm $cur/.gitpush
+		sleep 1
+		$cur/gitpush
+		fi
+
+	echo "path=$filepath" >> .gitpush			#saves the path to the .gitpush file.
+	echo "$yel Path saved to: $cur/.gitpush"
+	echo ""
+	echo ""
+fi
+
+source .gitpush
+
+echo
+
+echo "$cya List of files in $path."
 echo ""
-echo ""
+ls -a  $path
 echo ""
 
-echo -n "$gre Insert filename: "
-echo "$gre $path"
+echo "$yel Insert the name of the file you wish to push: "
+echo -n "$gre $path/"
 read file
-git add $file
+git add $path/$file
 
-echo "$yel Insert comment for the file"
-echo -n "$yel Commit: "
+echo "$yel Add a commit."
+echo -n "$yel Commit:$gre "
 read comm
 git commit -m "$comm"
 
-echo "$gre Insert repository"
-echo -n "$gre Repository: "
+echo "$yel Insert your GIT repository."
+echo -n "$yel Repository:$gre "
 read repo
+
+#flashing GIT PUSHED ASCII art.
+tput setaf 6
+if [[ "$(git push --porcelain -uf $repo master)" == *"Done"* ]]; then
+
+tput setaf 6
+clear
+echo "$goodpush"
+
+sleep 0.25
+tput setaf 5
+clear
+echo "$goodpush"
+
+sleep 0.25
+tput setaf 6
+clear
+echo "$goodpush"
+
+sleep 0.25
+tput setaf 5
+clear
+echo "$goodpush"
+
+sleep 0.25
+tput setaf 6
+clear
+echo "$goodpush"
+
+sleep 0.25
+tput setaf 5
+clear
+echo "$goodpush"
+
+else ###		If push fails.
+
+tput setaf 1
+clear
+echo "$badpush"
+
+sleep 0.25
 tput setaf 3
-git push -uf $repo master
-tput sgr0 #return to original color.
+clear
+echo "$badpush"
 
-else
+sleep 0.25
+tput setaf 1
+clear
+echo "$badpush"
 
-echo "$gre Insert filename"
-echo -n "$gre $path"
-read file
-git add $file
+sleep 0.25
+tput setaf 3
+clear
+echo "$badpush"
 
-echo "$yel Insert comment for the file"
-echo -n "$yel Commit: "
-read comm
-git commit -m "$comm"
-
-echo "$gre Insert repository"
-echo -n "$gre Repository: "
-read repo
-git push -uf $repo master
+sleep 0.25
+tput setaf 1
+clear
+echo "$badpush"
 
 fi
-tput setaf 5
-
-echo ""
-echo ""
-echo ""
-echo "  _______ _    _          _   _ _  __ _____   ______ ____  _____    _    _  _____ _____ _   _  _____ _ "
-echo " |__   __| |  | |   /\   | \ | | |/ // ____| |  ____/ __ \|  __ \  | |  | |/ ____|_   _| \ | |/ ____| |"
-echo "    | |  | |__| |  /  \  |  \| | ' /| (___   | |__ | |  | | |__) | | |  | | (___   | | |  \| | |  __| |"
-echo "    | |  |  __  | / /\ \ | . ' |  <  \___ \  |  __|| |  | |  _  /  | |  | |\___ \  | | | . ' | | |_ | |"
-echo "    | |  | |  | |/ ____ \| |\  | . \ ____) | | |   | |__| | | \ \  | |__| |____) |_| |_| |\  | |__| |_|"
-echo "    |_|  |_|  |_/_/    \_|_| \_|_|\_|_____/  |_|    \____/|_|  \_\  \____/|_____/|_____|_| \_|\_____(_)"
-echo ""
-echo ""
-echo ""
 
 tput sgr0 #return to original color.
