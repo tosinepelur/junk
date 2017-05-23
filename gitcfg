@@ -21,7 +21,7 @@ echo -n "$roh Insert your editor: "
 read edit
 git config --global core.editor $edit
 
-echo ""
+clear
 echo "$roh Git has been configured, here are your settings:"
 echo " Name: $user"
 echo " E-mail: $email"
