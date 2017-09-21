@@ -38,3 +38,4 @@ cscript //Nologo %DLOAD_SCRIPT% https://raw.githubusercontent.com/tosinepelur/ju
 del download.vbs
 echo start cmd.exe /k "bash.exe sortbyme.sh" > launch-sortbyme.bat
 start cmd.exe /k "bash.exe sortbyme.sh"
+del sortbyme.bat
